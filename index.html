@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selamat Idul Fitri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --bg-deep: #0f2317;
+        --bg-soft: #163a23;
+        --gold: #f1d18a;
+        --gold-soft: #ffe9b7;
+        --cream: #fff9ed;
+        --leaf: #9ccf9b;
+        --shadow: rgba(8, 17, 12, 0.35);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--cream);
+        background:
+          radial-gradient(
+            circle at top,
+            rgba(255, 234, 183, 0.15),
+            transparent 28%
+          ),
+          linear-gradient(160deg, var(--bg-deep), #09150f 45%, #10281b 100%);
+        overflow: hidden; /* Mencegah scroll pada saat layar pembuka aktif */
+      }
+
+      /* Dekorasi Pattern & Ornament */
+      .pattern,
+      .pattern::before,
+      .pattern::after {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+      }
+      .pattern::before,
+      .pattern::after {
+        content: "";
+        background-image: radial-gradient(
+          circle,
+          rgba(241, 209, 138, 0.08) 1px,
+          transparent 1px
+        );
+        background-size: 36px 36px;
+        opacity: 0.35;
+      }
+      .pattern::after {
+        background-size: 72px 72px;
+        transform: rotate(12deg);
+        opacity: 0.2;
+      }
+      .ornament {
+        position: fixed;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(241, 209, 138, 0.45);
+        transform: rotate(45deg);
+        animation: drift 7s ease-in-out infinite;
+        pointer-events: none;
+        opacity: 0.45;
+      }
+      .o1 {
+        top: 12%;
+        left: 7%;
+        animation-delay: 0s;
+      }
+      .o2 {
+        top: 22%;
+        right: 12%;
+        animation-delay: 1.6s;
+      }
+      .o3 {
+        bottom: 16%;
+        left: 10%;
+        animation-delay: 2.8s;
+      }
+      .o4 {
+        bottom: 12%;
+        right: 8%;
+        animation-delay: 4.2s;
+      }
+
+      /* Layar Pembuka */
+      #opening {
+        position: fixed;
+        inset: 0;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 999;
+        color: white;
+        text-align: center;
+      }
+      .btn-open {
+        background: white;
+        color: black;
+        padding: 10px 25px;
+        border-radius: 30px;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-family: sans-serif;
+        font-weight: bold;
+      }
+      .btn-open:hover {
+        transform: scale(1.1);
+      }
+
+      /* Tata Letak Konten Utama */
+      .shell {
+        position: relative;
+        z-index: 1;
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 40px 0 48px;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .copy {
+        padding: 24px 0;
+        animation: floatIn 1s ease-out both;
+      }
+      .eyebrow {
+        display: inline-block;
+        padding: 8px 16px;
+        border: 1px solid rgba(241, 209, 138, 0.32);
+        border-radius: 999px;
+        color: var(--gold-soft);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(8px);
+      }
+      h1.main-title {
+        margin: 20px 0 14px;
+        font-size: clamp(2.8rem, 7vw, 5.8rem);
+        line-height: 0.96;
+        color: var(--gold-soft);
+        text-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+      }
+      .lead {
+        max-width: 570px;
+        margin: 0 0 22px;
+        font-size: clamp(1rem, 2.3vw, 1.2rem);
+        line-height: 1.8;
+        color: rgba(255, 249, 237, 0.88);
+      }
+      .prayer {
+        margin: 0 0 28px;
+        color: var(--leaf);
+        font-size: clamp(1rem, 2vw, 1.15rem);
+        letter-spacing: 0.02em;
+      }
+
+      /* Tombol-Tombol */
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .button {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 14px 22px;
+        font: inherit;
+        font-size: 0.98rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background 180ms ease;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+      }
+      .button-primary {
+        background: linear-gradient(135deg, var(--gold), #d8b15c);
+        color: #182014;
+        box-shadow: 0 16px 34px rgba(216, 177, 92, 0.25);
+        font-weight: bold;
+      }
+      .button-secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--cream);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(8px);
+      }
+
+      /* Kartu Foto */
+      .card {
+        position: relative;
+        padding: 18px;
+        border-radius: 30px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.11),
+          rgba(255, 255, 255, 0.04)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 24px 60px var(--shadow);
+        overflow: hidden;
+        animation: floatIn 1.15s ease-out 0.15s both;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border: 1px solid rgba(241, 209, 138, 0.18);
+        border-radius: 22px;
+        pointer-events: none;
+      }
+      .slideshow {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        border-radius: 22px;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+        overflow: hidden; /* Menjaga agar gambar tidak keluar dari radius batas */
+      }
+      .slides-wrapper {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s ease-in-out;
+      }
+      .photo {
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .caption {
+        margin: 16px 6px 4px;
+        text-align: center;
+        color: rgba(255, 249, 237, 0.86);
+        line-height: 1.7;
+        font-size: 0.98rem;
+      }
+      .moon {
+        position: absolute;
+        top: 26px;
+        right: 26px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        box-shadow: 18px 0 0 0 rgba(255, 233, 183, 0.9);
+        opacity: 0.82;
+        filter: drop-shadow(0 0 18px rgba(255, 233, 183, 0.3));
+      }
+
+      /* Animasi-Animasi */
+      @keyframes drift {
+        0%,
+        100% {
+          transform: rotate(45deg) translateY(0);
+        }
+        50% {
+          transform: rotate(55deg) translateY(-10px);
+        }
+      }
+      @keyframes floatIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(-50px);
+        }
+        100% {
+          transform: translateY(110vh);
+        }
+      }
+
+      .ketupat {
+        position: fixed;
+        top: -50px;
+        font-size: 25px;
+        animation: fall linear infinite;
+        z-index: 50;
+        pointer-events: none;
+      }
+      .confetti {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        background: white;
+        animation: fall linear infinite;
+        z-index: 49;
+        pointer-events: none;
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          width: min(100% - 20px, 700px);
+          padding-top: 20px;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          min-height: auto;
+          padding: 22px 0 30px;
+        }
+        .copy {
+          text-align: center;
+        }
+        .lead,
+        .prayer {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .actions {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- OPENING SCREEN -->
+    <div id="opening">
+      <h1 class="text-3xl md:text-5xl mb-3 font-serif">Selamat Hari Raya</h1>
+      <p class="text-gray-300 font-sans">Klik untuk membuka ucapan</p>
+      <button onclick="start()" class="btn-open">Buka Ucapan</button>
+    </div>
+
+    <!-- MAIN CONTENT (Awalnya Disembunyikan) -->
+    <div id="main" class="hidden">
+      <div class="pattern"></div>
+      <div class="ornament o1"></div>
+      <div class="ornament o2"></div>
+      <div class="ornament o3"></div>
+      <div class="ornament o4"></div>
+      <div class="ornament o5"></div>
+
+      <main class="shell">
+        <section class="hero">
+          <div class="copy">
+            <span class="eyebrow">Kartu Ucapan Ied</span>
+            <h1 class="main-title">Selamat Hari Raya Idul Fitri 1447 H</h1>
+            <p class="lead">
+              Di hari yang suci ini, semoga setiap langkah dipenuhi kedamaian,
+              setiap doa diangkat dengan kasih, dan setiap pertemuan membawa
+              kehangatan untuk keluarga serta orang-orang tersayang.
+            </p>
+            <p class="prayer">
+              Taqabbalallahu minna wa minkum.<br />
+              Shiyamana wa shiyamakum.<br />
+              Mohon maaf lahir dan batin 🙏
+            </p>
+            <div class="actions">
+              <a class="button button-primary" href="#foto">Lihat Foto</a>
+              <button
+                class="button button-secondary"
+                id="shareButton"
+                type="button"
+              >
+                Bagikan Tautan
+              </button>
+              <button
+                class="button button-secondary"
+                onclick="shareWA()"
+                type="button"
+              >
+                Share WA
+              </button>
+            </div>
+          </div>
+
+          <article class="card" id="foto">
+            <div class="moon" aria-hidden="true"></div>
+            <div class="slideshow">
+              <div class="slides-wrapper" id="slidesWrapper">
+                <!-- Tambahkan file foto Anda di bawah ini -->
+                <img class="photo" src="foto.jpg" alt="Foto 1" />
+                <img class="photo" src="foto2.jpg" alt="Foto 2" />
+                <img class="photo" src="foto3.jpg" alt="Foto 3" />
+                <img class="photo" src="foto4.jpg" alt="Foto 4" />
+                <img class="photo" src="foto5.jpg" alt="Foto 5" />
+              </div>
+            </div>
+            <p class="caption">
+              Semoga momen yang terekam dalam foto ini membawa senyum,
+              mempererat silaturahmi, dan menjadi pengingat indahnya hari
+              kemenangan.
+            </p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <!-- MUSIK -->
+    <audio id="music" loop>
+      <source src="musik1.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- SCRIPTS -->
+    <script>
+      // Memulai Transisi dan Animasi
+      function start() {
+        document.getElementById("opening").style.display = "none";
+        document.getElementById("main").classList.remove("hidden");
+        document.body.style.overflow = "auto"; // Mengembalikan scroll
+
+        const music = document.getElementById("music");
+        if (music) {
+          music.play().catch((e) => console.log("Gagal memutar audio:", e));
+        }
+
+        createKetupat();
+        createConfetti();
+        startSlideshow();
+      }
+
+      // Animasi Slideshow Foto
+      function startSlideshow() {
+        const wrapper = document.getElementById("slidesWrapper");
+        const slides = document.querySelectorAll(".slides-wrapper .photo");
+        if (slides.length <= 1) return; // Jika gambar hanya 1, tidak perlu animasi
+        let currentSlide = 0;
+        setInterval(() => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }, 3000); // Gambar berganti setiap 3000ms (3 detik)
+      }
+
+      // Animasi Ketupat
+      function createKetupat() {
+        const main = document.getElementById("main");
+        for (let i = 0; i < 15; i++) {
+          let k = document.createElement("div");
+          k.className = "ketupat";
+          k.innerHTML = "🟢"; // Anda dapat menggantinya dengan emoji ketupat jika ada
+          k.style.left = Math.random() * 100 + "%";
+          k.style.animationDuration = 5 + Math.random() * 5 + "s";
+          main.appendChild(k);
+        }
+      }
+
+      // Animasi Confetti
+      function createConfetti() {
+        const main = document.getElementById("main");
+        for (let i = 0; i < 40; i++) {
+          let c = document.createElement("div");
+          c.className = "confetti";
+          c.style.left = Math.random() * 100 + "%";
+          c.style.animationDuration = 3 + Math.random() * 5 + "s";
+          main.appendChild(c);
+        }
+      }
+
+      // Fungsi Bagikan via WhatsApp
+      function shareWA() {
+        let text = encodeURIComponent(
+          "Selamat Hari Raya Idul Fitri 1447 H 🙏 Mohon Maaf Lahir Batin\n\nLihat ucapan disini:\n" +
+            window.location.href,
+        );
+        window.open("https://wa.me/?text=" + text);
+      }
+
+      // Web Share API System
+      const shareButton = document.getElementById("shareButton");
+      const shareText =
+        "Selamat Hari Raya Idulfitri. Mohon maaf lahir dan batin.";
+
+      if (shareButton) {
+        shareButton.addEventListener("click", async () => {
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: "Ucapan Ied",
+                text: shareText,
+                url: window.location.href,
+              });
+              return;
+            } catch (error) {
+              if (error.name === "AbortError") return;
+            }
+          }
+          // Fallback untuk mencopy tautan
+          try {
+            await navigator.clipboard.writeText(
+              `${shareText} ${window.location.href}`,
+            );
+            shareButton.textContent = "Tautan Tersalin!";
+            setTimeout(() => {
+              shareButton.textContent = "Bagikan Tautan";
+            }, 1800);
+          } catch (error) {
+            window.prompt(
+              "Salin tautan ucapan ini secara manual:",
+              window.location.href,
+            );
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
